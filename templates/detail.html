@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="row">
+                <div class="col-lg-8">
+                    <!-- Post content-->
+                    <form enctype="multipart/form-data">
+                        <!-- Post header-->
+                        <header class="mb-4">
+                            <!-- Post title-->
+                            <h3 class="fw-bolder mb-1">{{article.title}}</h3>
+                            <!-- Post meta content-->
+                            <div class="text-muted fst-italic mb-2">{{article.create_date}}</div>
+                            <!-- Post Author-->
+                            <hr>
+                            <p>
+                            Yazan,
+                            {{article.author.username}}
+                            </p>
+                            
+                        </header>
+                        <!-- Preview image figure-->
+                        {% if article.article_image %}
+                            <img class="img-fluid rounded" src="{{article.article_image.url}}" alt="">
+                        
+                        {% endif %}
+                        
+                        <hr>
+                        <!-- Post content-->
+                        <section class="mb-5">
+                            {{article.content|safe}}
+                        </section>
+                    </form>
+
+                    <form method="post" action="{% url 'article:comment' article.id %}" class="mb-4">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label>Yorum Yap:</label>
+                        <input name="comment_author" class="form-control" placeholder="Isminizi girin">
+                    <textarea name="comment_content" class="form-control" rows="3" placeholder="Bir yorum birak.."></textarea>
+                    <button class="btn btn-primary" id="button-search" type="submit">Yorum Yap</button>
+                    </form>
+                    </div>
+
+                    {% if comments %}
+                        {% for comment in comments %}
+                            <div class="d-flex">
+                            <div class="flex-shrink-0"><img class="rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." /></div>
+                                <div class="ms-3">
+                                    <div class="fw-bold">{{comment.comment_author}}</div>
+                                    <small>{{comment.comment_date}}</small> <br>
+                                    {{comment.comment_content}}
+                            </div>
+                        </div>
+                        <hr>
+                        {% endfor %}
+                    {% else %}
+                        <div class="alert alert-warning">Yorum Yapilmamis</div>
+                    {% endif %}
+
+                </div>
+                
+            </div>
+
+
+
+{% endblock body %}

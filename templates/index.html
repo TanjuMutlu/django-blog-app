@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    
+    <div class = "jumbotron text-center">
+    <h3>Hosgeldiniz</h3>
+    <p>Django deneme blogu</p>
+    </div>
+    <p>{{number1}} {{number2}}</p>
+
+<P>
+    {% if request.user.is_authenticated %}
+        Giris Yapilmis
+    {% else %}
+    Giris Yapilmamis
+    {% endif %}
+</P>
+{% endblock body %}

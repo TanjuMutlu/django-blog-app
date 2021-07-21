@@ -1,0 +1,71 @@
+{% extends "layout.html" %}
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-12 offset-md-3">
+            <div class="col-lg-8">
+                <h3>Makaleler</h3>
+                <hr>
+            </div>    
+        </div>
+    </div>
+     <div class="row">
+     <div class="col-md-12 offset-md-3">
+            <div class="col-lg-8">
+        <form>
+            {% csrf_token %}
+            <input type="text" name = "keyword" class="input-sm" maxlength="64" placeholder="Makale Ara...">
+            <button type="submit" class="btn btn-success">Ara</button>
+        </form>
+        <hr>
+    </div> </div> </div>
+    {% if articles %}
+
+        {% for article in articles %}
+        <div  class="row">
+            <div class="col-md-12 offset-md-3">
+                <div class="col-lg-8">
+                    <!-- Post content-->
+                    <form enctype="multipart/form-data">
+                        <!-- Post header-->
+                        <header class="mb-4">
+                            <!-- Post title-->
+                            <a href="{% url 'article:detail' article.id %}"><h3 class="fw-bolder mb-1">{{article.title}}</h3></a>
+                            <!-- Post meta content-->
+                            <div class="text-muted fst-italic mb-2">{{article.create_date}}</div>
+                            <!-- Post Author-->
+                            <hr>
+                            <p>
+                            Yazan,
+                            {{article.author.username}}
+                            </p>
+                            
+                        </header>
+                        <!-- Preview image figure-->
+                        {% if article.article_image %}
+                            <a href="{% url 'article:detail' article.id %}"><img class="img-fluid rounded" src="{{article.article_image.url}}" alt=""></a>
+                        
+                        {% endif %}
+                        
+                        <hr>
+                        <!-- Post content-->
+                        <p>
+                            {{article.content|safe|truncatewords:40}}
+                        </p>
+                        <a style="float : right" href="{% url 'article:detail' article.id %}" class="btn btn-danger">Devamini oku</a>
+                    </form>
+                    
+                </div>
+                
+            </div>
+        </div>
+        {% endfor %}
+
+    {% else %}
+    <div class="row">
+        <div class="col-md-12 offset-md-3">
+            <div class="col-lg-8">
+        <div class="alert alert-danger">Makale Bulunamadi</div> </div> </div> </div>
+    {% endif %}
+
+{% endblock body %}
